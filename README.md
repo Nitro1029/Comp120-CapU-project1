@@ -12,13 +12,14 @@ The program uses basic c programming concepts such as:
 ## Code overview 
 The program is divided into different functions to make it easier to understand and to make it more organized 
 - init_board() Sets all nine squares to empty spaces
-- display_board() Displays the baked and shows how much squares are available 
-- get_human_move() Asks the user to enter a square and see if the move is valid 
+- display_board() Displays the board and shows which squares are available
+- get_human_move() Asks the user to enter a square and see if the move is valid
 - is_winner() checks the horizontal rows, vertical columns and diagonals to see if a player has won
 - other_player() Switches between the player (O) and the computer (X)
 - get_computer_move() Uses random numbers to choose an available space for the computer to choose
 - play_game() Runs the game and checks if someone wins or the game is drawn
 - play_again() Asks the user if they want to play the game again
+- take_turn() Handles the current players moves and updates the board.
 
 The board starts with nine available squares as shown below:
 
@@ -38,9 +39,9 @@ The game will keep going on until one player gets 3 symbols in a row or until al
 1. Download or clone this repository 
 2. Open the Project1.c. file in C programming 
 3. Compile the program using GCC
-gcc Project1.c -o Project1
+`gcc Project1.c -o Project1`
 4. Run the program
-./Project1
+`./Project1`
 5. Enter a number from 0 to 8 to place O on the board.
 6. Continue playing against the computer until someone wins or the game ends in a draw.
 7. Enter y to play again or q to quit.
