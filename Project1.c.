@@ -1,0 +1,208 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+
+// I used a for loop to fill the board with empty spaces
+void init_board(char board[9]) {
+    for (int i = 0; i < 9; i++) {
+        board[i] = ' ';
+    }
+}
+
+// I used a temporary char array to display the board and available squares
+void display_board(char board[9]) {
+    char c[9];
+
+    for (int i = 0; i < 9; i++) {
+        c[i] = board[i];
+
+        if (c[i] == ' ') {
+            c[i] = '0' + i;
+        }
+    }
+
+    printf("\n");
+    printf(" %c | %c | %c\n", c[0], c[1], c[2]);
+    printf("---+---+---\n");
+    printf(" %c | %c | %c\n", c[3], c[4], c[5]);
+    printf("---+---+---\n");
+    printf(" %c | %c | %c\n", c[6], c[7], c[8]);
+    printf("\n");
+}
+
+// I used bool and if statements to check if there is three symbols in a row
+bool is_winner(char board[9], char player) {
+
+    // checking in the horizontal rows
+    if (board[0] == player && board[1] == player && board[2] == player)
+        return true;
+
+    if (board[3] == player && board[4] == player && board[5] == player)
+        return true;
+
+    if (board[6] == player && board[7] == player && board[8] == player)
+        return true;
+
+    // checking in the vertical columns
+    if (board[0] == player && board[3] == player && board[6] == player)
+        return true;
+
+    if (board[1] == player && board[4] == player && board[7] == player)
+        return true;
+
+    if (board[2] == player && board[5] == player && board[8] == player)
+        return true;
+
+    // checking in the diagonals
+    if (board[0] == player && board[4] == player && board[8] == player)
+        return true;
+
+    if (board[2] == player && board[4] == player && board[6] == player)
+        return true;
+
+    return false;
+}
+
+// I used an if else statement to switch between players
+char other_player(char player) {
+    if (player == 'O') {
+        return 'X';
+    }
+    else {
+        return 'O';
+    }
+}
+
+// I used a while loop to ask the user for a valid move
+int get_human_move(char board[9]) {
+    int move;
+    bool valid = false;
+
+    while (valid == false) {
+        printf("Your turn (O). Enter a number from 0 to 8: ");
+
+        if (scanf("%d", &move) != 1) {
+            printf("Please enter a number.\n");
+
+            // Clear invalid input so the user can try again
+            int ch;
+            while ((ch = getchar()) != '\n' && ch != EOF) {
+            }
+        }
+        else if (move < 0 || move > 8) {
+            printf("That number is not between 0 and 8.\n");
+        }
+        else if (board[move] != ' ') {
+            printf("That square is already taken.\n");
+        }
+        else {
+            valid = true;
+        }
+    }
+
+    return move;
+}
+
+// I used rand() and a do while loop to choose an empty square
+int get_computer_move(char board[9]) {
+    int move;
+
+    do {
+        move = rand() % 9;
+    } while (board[move] != ' ');
+
+    return move;
+}
+
+// I used an if else statement to handle the users or computers turn
+void take_turn(char board[9], char player) {
+    int move;
+
+    if (player == 'O') {
+        move = get_human_move(board);
+    }
+    else {
+        move = get_computer_move(board);
+        printf("Computer (X) chose square %d.\n", move);
+    }
+
+    board[move] = player;
+}
+
+//  i used a for loop to play the game and check for a win or draw
+void play_game(void) {
+    char board[9];
+    char player = 'O';
+    bool game_over = false;
+
+    init_board(board);
+    display_board(board);
+
+    for (int turn = 0; turn < 9; turn++) {
+
+        take_turn(board, player);
+        display_board(board);
+
+        if (is_winner(board, player)) {
+            if (player == 'O') {
+                printf("You won!\n");
+            }
+            else {
+                printf("Computer won!\n");
+            }
+
+            game_over = true;
+        }
+        else if (turn == 8) {
+            printf("It's a draw!\n");
+            game_over = true;
+        }
+
+        if (game_over == true) {
+            break;
+        }
+
+        player = other_player(player);
+    }
+}
+
+// i used a while loop to ask if the user wants to play again
+bool play_again(void) {
+    char answer;
+
+    printf("Play again? (y or q): ");
+    scanf(" %c", &answer);
+
+    while (answer != 'y' && answer != 'q') {
+        printf("Please enter y or q: ");
+        scanf(" %c", &answer);
+    }
+
+    if (answer == 'y') {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+// i used srand() to start random moves and a do while loop to if they want to repeat the game. 
+int main(void) {
+    bool again;
+
+    srand(time(NULL));
+
+    printf("Welcome to Tic-Tac-Toe!\n");
+    printf("You are O and the computer is X.\n");
+
+    do {
+        play_game();
+        again = play_again();
+    } while (again == true);
+
+    printf("Thanks for playing!\n");
+
+    return 0;
+}
