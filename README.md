@@ -1,5 +1,5 @@
 # Project 1: Tic-Tac-Toe vs. the Computer in C
-## description
+## Description
 This project objective was to create a tic tac toe game versus a computer in C on a 3x3 board, The user plays as O and always goes first while the computer plays as X and responds with a random chosen square. 
 
 The program uses basic c programming concepts such as:
@@ -22,12 +22,14 @@ The program is divided into different functions to make it easier to understand 
 
 The board starts with nine available squares as shown below:
 
+```text
  0 | 1 | 2
 ---+---+---
  3 | 4 | 5
 ---+---+---
  6 | 7 | 8
-
+```
+  
 After the user and computer make their first moves, the board will update to show O and X in the selected squares.
 
 The game will keep going on until one player gets 3 symbols in a row or until all 9 squares are filled. When the game ends, the player can decide to quit or to play again. 
